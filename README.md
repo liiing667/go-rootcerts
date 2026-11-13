@@ -12,6 +12,12 @@ certificates.
 This library contains utility functions for loading certificates destined for
 that field, as well as one other important thing:
 
+Loading from `CAFile`, `CACertificate`, or `CAPath` is strict and atomic:
+every PEM block must be a valid X.509 certificate, malformed or trailing data
+fails the whole load, and file type, size (1 MiB per file), and certificate
+count (1024 per load) limits are enforced. Set `Config.LegacyCompat` to opt
+back into the historical lenient parsing behavior.
+
 When the `RootCAs` field is `nil`, the standard library attempts to load the
 host's root CA set.  This behavior is OS-specific, and the Darwin
 implementation contains [a bug that prevents trusted certificates from the
